@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dealbreaker</title>
+  </head>
+  <style>
+    body {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 95vh;
+    }
+    /* div {
+      border: 1px solid;
+    } */
+    #popup {
+      width: 800px;
+      height: 500px;
+      border: 1px solid;
+      background-color: rgb(170, 170, 170);
+      display: flex;
+      flex-direction: row;
+      display: none;
+      display: flex;
+    }
+    #options {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+    }
+    #dialogs {
+      position: relative;
+      width: 50%;
+      background-color: white;
+    }
+    #header {
+      width: 100%;
+      height: 80px;
+      margin-bottom: 10px;
+    }
+    #ask {
+      width: 100%;
+      height: 50%;
+      text-align: center;
+    }
+    #question {
+      width: 100%;
+      height: 50%;
+      text-align: center;
+    }
+    .option {
+      position: relative;
+      height: 40px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .checkbox {
+      position: absolute;
+      left: 10px;
+      width: 15px;
+      height: 15px;
+      background-color: white;
+      border: 1px solid;
+      cursor: pointer;
+    }
+    .checkbox-selected {
+      background-color: rgb(0, 179, 0);
+    }
+    .option-selected {
+      background-color: white;
+    }
+    .description {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex: 1;
+      align-items: center;
+      padding-left: 40px;
+      cursor: pointer;
+    }
+    .dialog {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+  <body>
+    <div id="popup">
+      <div id="options">
+        <div id="header">
+          <div id="ask">Help us make a product better</div>
+          <div id="question">What is a dealbreaker for you?
+            <br>
+            (you can choose multiple)
+          </div>
+        </div>
+        <div class="option option-selected" id="option-career" data-dialog="#dialog-career">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">Not sure which profession to choose?</div>
+        </div>
+        <div class="option" id="option-good" data-dialog="#dialog-good">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">All good, thinking to purchase</div>
+        </div>
+        <div class="option" id="option-price" data-dialog="#dialog-price">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">Price is too high</div>
+        </div>
+        <div class="option" id="option-duration" data-dialog="#dialog-duration">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">Duration is too long</div>
+        </div>
+        <div class="option" id="option-schedule" data-dialog="#dialog-schedule">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">I need different learning schedule</div>
+        </div>
+        <div class="option" id="option-syllabus" data-dialog="#dialog-syllabus">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">Syllabus missing some topics that I need</div>
+        </div>
+        <div class="option" id="option-process" data-dialog="#dialog-process">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">Learning process ...</div>
+        </div>
+        <div class="option" id="option-offline" data-dialog="#dialog-offline">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">I need offline presence/activities</div>
+        </div>
+        <div class="option" id="option-research" data-dialog="#dialog-research">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">I'm still researching different bootcamps</div>
+        </div>
+        <div class="option" id="option-custom" data-dialog="#dialog-custom">
+          <div class="checkbox" onclick="onClickCheckbox(this)"></div>
+          <div class="description" onclick="onClickDescription(this)">None of the above, your option</div>
+        </div>
+      </div>
+      <div id="dialogs">
+        <div class="dialog" id="dialog-career">Take a quiz to find out!</div>
+        <div class="dialog" id="dialog-good">Awesome, book a call with our consultant!</div>
+        <div class="dialog" id="dialog-price">Would payment after employment help? > notify you if we make that available?</div>
+        <div class="dialog" id="dialog-duration">What duration is suitable for you? __ > notify you if we make such course?</div>
+        <div class="dialog" id="dialog-schedule">Self-paced? Strict? > notify?</div>
+        <div class="dialog" id="dialog-syllabus">Tell us > notify if we'll add them?</div>
+        <div class="dialog" id="dialog-process">Tell us > notify if we'll change it?</div>
+        <div class="dialog" id="dialog-offline">Tell us > notify if we'll add them?</div>
+        <div class="dialog" id="dialog-research">Let us help you with research > tell us your criteria > we will send you a comparison table on that criteria > форма для заполнения</div>
+        <div class="dialog" id="dialog-custom">Tell us how can we be better ___</div>
+      </div>
+    </div>
+    <script>
+      function deselectOptions() {
+        document.querySelectorAll('.option').forEach((e) => {
+          if (e.classList.contains('option-selected')) {
+            e.classList.toggle('option-selected');
+          }
+        });
+      }
+      function selectOption(e) {
+        deselectOptions();
+        e.classList.toggle('option-selected');
+      }
+      function closeDialog() {
+        document.querySelectorAll('.dialog').forEach((e) => {
+          if (e.style.display == 'flex') {
+            e.style.display = 'none';
+          }
+        });
+      }
+      function showDialog(e) {
+        closeDialog();
+        document.querySelector(e.dataset.dialog).style.display = 'flex';
+      }
+      function onClickCheckbox(e) {
+        e.classList.toggle('checkbox-selected');
+        selectOption(e.parentElement);
+        showDialog(e.parentElement);
+      }
+      function onClickDescription(e) {
+        selectOption(e.parentElement);
+        showDialog(e.parentElement);
+      }
+    </script>
+    <script>
+      // имитирую триггер ухода со страницы / запуска popup окна
+      document.addEventListener('mousemove', (e) => {
+        if (e.screenY < 150) {
+          document.querySelector('#popup').style.display = 'flex';
+          document.querySelector('#dialog-career').style.display = 'flex' // dialog career test flex
+        }
+      });
+    </script>
+  </body>
+</html>
